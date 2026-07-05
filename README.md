@@ -1,14 +1,12 @@
 # Intern-Hiring-React
 A full-stack project for intern evaluation (React + Next.js + Node.js + PostgreSQL).
 
-## 🎯 Project Overview
+## Project Overview
 
 The **Employee Leave Management System** is a **full-stack web application** designed to evaluate interns on their proficiency in **React, Next.js, Node.js, and PostgreSQL**. This system allows employees to apply for leaves, managers to approve/reject leave requests, and admins to manage users, view reports, and oversee the entire system.
 
 **Expected Completion Time:** 1 week  
 **Tech Stack:** React, Next.js (App Router), Node.js, Express, PostgreSQL, Prisma ORM
-
----
 
 ## Roles and Permissions
 
@@ -18,7 +16,6 @@ The **Employee Leave Management System** is a **full-stack web application** des
 | **Manager**  | Approve/reject leave requests, view team leave requests, view team leave reports            |
 | **Admin**    | Manage users (CRUD), view all leave requests, generate reports, manage leave types/policies |
 
----
 
 ## Features to Implement
 
@@ -89,8 +86,6 @@ The **Employee Leave Management System** is a **full-stack web application** des
   - Loading states and error handling
   - Notifications (toast messages for actions)
 
----
-
 
 ### Prerequisites
 
@@ -102,11 +97,8 @@ The **Employee Leave Management System** is a **full-stack web application** des
 ### Local Development Setup
 
 #### 1. **Clone the Repository**
-
-```bash
-git clone https://github.com/grvnameste/Intern-Hiring-React.git
-cd Intern-Hiring-React
-```
+  git clone https://github.com/grvnameste/Intern-Hiring-React.git
+  cd  Intern-Hiring-React
 
 #### 2. **Backend Setup**
 
@@ -120,7 +112,7 @@ cd Intern-Hiring-React
     cd ../client
   
 
-## 🧪 Unit Testing
+## Unit Testing
 
 **Note:** Your project **must include unit tests** for both backend and frontend to ensure reliability and correctness.
 
@@ -158,8 +150,7 @@ cd Intern-Hiring-React
   npm run test
   ```
 
-
-## 🚀 Deployment Instructions
+## Deployment Instructions
 
 **Note:** Your project **must include deployment instructions** to demonstrate how to deploy the application in a production-like environment.
 
@@ -220,8 +211,6 @@ cd Intern-Hiring-React
 - Documentation (comments, README updates)
 - Ability to complete the project within 1 week
 
-
-
 ##  Submission Guidelines
 
 1. **Fork the Repository**: Create a fork of the provided repository.
@@ -239,8 +228,6 @@ cd Intern-Hiring-React
   - **Unit test results** (screenshots or logs)
   - **Deployment link** (if deployed)
 
----
-
 ## 💡 Tips for Interns
 
 - **Refer to Docs**:
@@ -252,16 +239,11 @@ cd Intern-Hiring-React
 
 - **Ask for Help**: If stuck, ask for clarification on requirements or concepts.
 
----
-
-## 📌 Additional Notes
+## Additional Notes
 
 - **Bonus Points**:
   - Leave calendar with drag-and-drop
   - Integration tests or E2E tests
-
----
-
 ## 🤝 Need Help?
 
 Reach out to the team via email for any questions or clarifications!

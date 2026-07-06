@@ -11,3 +11,75 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  Employee
+  Manager
+  Admin
+}
+
+enum LeaveStatus {
+  Pending
+  Approved
+  Rejected
+  Cancelled
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String @unique
+  password    String   // bcrypt hash
+  role        Role     @default(Employee)
+  department  String?
+  active      Boolean  @default(true)
+  managerId   String?
+  manager     User?    @relation("ManagerReports", fields: [managerId], references: [id])
+  reports     User[]   @relation("ManagerReports")
+  leaveRequests LeaveRequest[] @relation("RequesterLeaves")
+  approvedRequests LeaveRequest[] @relation("ApproverLeaves")
+  leaveBalances LeaveBalance[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([managerId])  
+}
+
+model LeaveType {
+  id      String @id @default(uuid())
+  name    String @unique
+  maxDays Int
+  leaveRequests LeaveRequest[]
+  leaveBalances LeaveBalance[]
+}
+
+
+model LeaveRequest {
+  id          String      @id @default(uuid())
+  userId      String
+  user        User        @relation("RequesterLeaves", fields: [userId], references: [id])
+  leaveTypeId String
+  leaveType   LeaveType   @relation(fields: [leaveTypeId], references: [id])
+  startDate   DateTime
+  endDate     DateTime
+  reason      String
+  status      LeaveStatus @default(Pending)
+  approvedById String?
+  approvedBy   User?      @relation("ApproverLeaves", fields: [approvedById], references: [id])
+  comment      String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  @@index([userId])
+  @@index([status])
+}
+
+
+model LeaveBalance {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  leaveTypeId String
+  leaveType   LeaveType @relation(fields: [leaveTypeId], references: [id])
+  balance     Int       
+  @@unique([userId, leaveTypeId]) 
+}

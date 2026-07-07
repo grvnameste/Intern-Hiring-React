@@ -2,14 +2,21 @@ import 'dotenv/config';
 import { PrismaClient, Role } from '../generated/prisma/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
+import bcrypt from 'bcrypt';
 
 const connectionString = process.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
+const SALT_ROUNDS = 10;
+
 async function main() {
   console.log('Starting seed...');
+
+  // Hash the shared seed password once
+  const hashedPassword = await bcrypt.hash('password123', SALT_ROUNDS);
+
 
   // 1. Create LeaveTypes
   const annualLeave = await prisma.leaveType.upsert({
@@ -37,11 +44,11 @@ async function main() {
   // Admin
   const admin = await prisma.user.upsert({
     where: { email: 'admin@example.com' },
-    update: {},
+    update: { password: hashedPassword },
     create: {
       name: 'Admin User',
       email: 'admin@example.com',
-      password: 'password123', 
+      password: hashedPassword,
       role: Role.Admin,
       department: 'HR',
     },
@@ -50,11 +57,11 @@ async function main() {
   // Managers
   const manager1 = await prisma.user.upsert({
     where: { email: 'manager1@example.com' },
-    update: {},
+    update: { password: hashedPassword },
     create: {
       name: 'Manager One',
       email: 'manager1@example.com',
-      password: 'password123',
+      password: hashedPassword,
       role: Role.Manager,
       department: 'Engineering',
       managerId: admin.id,
@@ -63,11 +70,11 @@ async function main() {
 
   const manager2 = await prisma.user.upsert({
     where: { email: 'manager2@example.com' },
-    update: {},
+    update: { password: hashedPassword },
     create: {
       name: 'Manager Two',
       email: 'manager2@example.com',
-      password: 'password123',
+      password: hashedPassword,
       role: Role.Manager,
       department: 'Marketing',
       managerId: admin.id,
@@ -89,11 +96,11 @@ async function main() {
   for (const emp of employees) {
     const user = await prisma.user.upsert({
       where: { email: emp.email },
-      update: {},
+      update: { password: hashedPassword },
       create: {
         name: emp.name,
         email: emp.email,
-        password: 'password123',
+        password: hashedPassword,
         role: Role.Employee,
         department: emp.dept,
         managerId: emp.managerId,

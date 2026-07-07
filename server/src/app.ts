@@ -6,6 +6,9 @@ import type { Request, Response, NextFunction } from 'express';
 import { AppError } from './utils/errors.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/users.routes.js';
+import leaveTypeRoutes from './routes/leaveTypes.routes.js';
+import leaveRequestRoutes from './routes/leaveRequests.routes.js';
+import reportRoutes from './routes/reports.routes.js';
 
 const app = express();
 const PORT = process.env['PORT'] ?? 3001;
@@ -27,6 +30,9 @@ app.get('/health', (_req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/leave-types', leaveTypeRoutes);
+app.use('/api/leave-requests', leaveRequestRoutes);
+app.use('/api/reports', reportRoutes);
 
 // ── Global Error Handler ──────────────────────────────────────────────────────
 // Must be defined LAST and have all 4 parameters for Express to treat it as an error handler

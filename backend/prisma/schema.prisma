@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String         @id @default(uuid())
+  email           String         @unique
+  passwordHash    String
+  firstName       String
+  lastName        String
+  role            Role           @default(EMPLOYEE)
+  isActive        Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  departmentId    String?
+  managerId       String?
+  auditLogs       AuditLog[]
+  leaveBalances   LeaveBalance[]
+  managedRequests LeaveRequest[] @relation("ManagerLeaveRequests")
+  leaveRequests   LeaveRequest[] @relation("UserLeaveRequests")
+  department      Department?    @relation(fields: [departmentId], references: [id])
+  manager         User?          @relation("UserToManager", fields: [managerId], references: [id])
+  subordinates    User[]         @relation("UserToManager")
+
+  @@map("users")
+}
+
+model Department {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]
+
+  @@map("departments")
+}
+
+model LeaveType {
+  id                 String         @id @default(uuid())
+  name               String         @unique
+  description        String?
+  defaultDays        Int            @default(0)
+  requiresAttachment Boolean        @default(false)
+  isActive           Boolean        @default(true)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  leaveBalances      LeaveBalance[]
+  leaveRequests      LeaveRequest[]
+
+  @@map("leave_types")
+}
+
+model LeaveBalance {
+  id          String    @id @default(uuid())
+  userId      String
+  leaveTypeId String
+  totalDays   Int
+  usedDays    Int       @default(0)
+  year        Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  leaveType   LeaveType @relation(fields: [leaveTypeId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, leaveTypeId, year])
+  @@map("leave_balances")
+}
+
+model LeaveRequest {
+  id             String      @id @default(uuid())
+  userId         String
+  leaveTypeId    String
+  startDate      DateTime
+  endDate        DateTime
+  status         LeaveStatus @default(PENDING)
+  reason         String
+  attachmentUrl  String?
+  managerId      String?
+  managerComment String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  leaveType      LeaveType   @relation(fields: [leaveTypeId], references: [id])
+  manager        User?       @relation("ManagerLeaveRequests", fields: [managerId], references: [id])
+  user           User        @relation("UserLeaveRequests", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("leave_requests")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  userId    String?
+  details   Json?
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}

@@ -1,249 +1,447 @@
-# Intern-Hiring-React
-A full-stack project for intern evaluation (React + Next.js + Node.js + PostgreSQL).
+# Employee Leave Management System
 
-## Project Overview
+A full-stack Employee Leave Management System built using **Next.js, React, Node.js, Express, PostgreSQL, and Prisma ORM**. The application provides secure role-based access for Employees, Managers, and Administrators to manage leave requests, approvals, leave balances, reports, and user management.
 
-The **Employee Leave Management System** is a **full-stack web application** designed to evaluate interns on their proficiency in **React, Next.js, Node.js, and PostgreSQL**. This system allows employees to apply for leaves, managers to approve/reject leave requests, and admins to manage users, view reports, and oversee the entire system.
+---
 
-**Expected Completion Time:** 1 week  
-**Tech Stack:** React, Next.js (App Router), Node.js, Express, PostgreSQL, Prisma ORM
+# Live Demo
 
-## Roles and Permissions
+https://leave-management-system-rho-three.vercel.app
 
-| Role         | Permissions                                                                                 |
-| ------------ | ------------------------------------------------------------------------------------------- |
-| **Employee** | Apply for leave, view own leave history, view leave balance, cancel own leave requests      |
-| **Manager**  | Approve/reject leave requests, view team leave requests, view team leave reports            |
-| **Admin**    | Manage users (CRUD), view all leave requests, generate reports, manage leave types/policies |
+---
 
+# Tech Stack
 
-## Features to Implement
+## Frontend
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- React Query
+- Axios
 
-### 1. **User Authentication & Authorization**
+## Backend
+- Node.js
+- Express.js
+- Prisma ORM
+- PostgreSQL
+- JWT Authentication
+- bcrypt
 
-- User registration (Admin can create users)
-- User login/logout 
-- Role-based access control (Employee, Manager, Admin)
-- Password hashing
+## Testing
+- Jest
+- React Testing Library
 
-### 2. **Leave Management**
+---
 
-- **Employee:**
-  - Apply for leave (type, start date, end date, reason)
-  - View own leave history and balance
-  - Cancel own pending leave requests
-- **Manager:**
-  - View leave requests from their team
-  - Approve/reject leave requests
-  - View team leave calendar
-- **Admin:**
-  - Manage leave types (e.g., Annual, Sick, Maternity)
-  - Set leave policies (e.g., max days per type)
+# Features Implemented
 
-### 3. **Leave Request Workflow**
+## Authentication
 
-- Employee submits a leave request → Manager receives notification
-- Manager approves/rejects → Employee receives notification
-- System updates leave balance automatically
+- Secure Login
+- Logout
+- JWT Authentication
+- Password Hashing
+- Protected Routes
+- Role-Based Authorization
 
-### 4. **Reports (Admin Only)**
+---
 
-- **Leave Summary Report:** Total leaves taken by type, department, or employee
-- **Leave Balance Report:** Remaining leave balance for all employees
-- **Leave Calendar:** Visual representation of leaves (by team or company-wide)
-- Export reports as **CSV/Excel** (bonus)
+## Employee
 
-### 5. **Database Schema (PostgreSQL + Prisma)**
+- Apply Leave
+- View Leave History
+- View Leave Balance
+- Cancel Pending Leave Requests
+- Dashboard Overview
+- Notifications
 
-- **User:** id, name, email, password, role (Employee/Manager/Admin), managerId (for reporting hierarchy)
-- **LeaveType:** id, name (e.g., Annual, Sick), maxDays
-- **LeaveRequest:** id, userId, leaveTypeId, startDate, endDate, status (Pending/Approved/Rejected), reason, createdAt
-- **LeaveBalance:** id, userId, leaveTypeId, balance (auto-updated)
+---
 
-### 6. **API Endpoints (RESTful)**
+## Manager
 
-- **Auth:** `POST /api/auth/login`, `POST /api/auth/logout`
-- **Users:** `GET /api/users` (Admin), `POST /api/users` (Admin), `GET /api/users/me`
-- **Leave Types:** `GET /api/leave-types`, `POST /api/leave-types` (Admin)
-- **Leave Requests:**
-  - `GET /api/leave-requests` (Employee: own, Manager: team, Admin: all)
-  - `POST /api/leave-requests` (Employee)
-  - `PUT /api/leave-requests/:id` (Manager: approve/reject, Employee: cancel)
-- **Reports:** `GET /api/reports/leave-summary`, `GET /api/reports/leave-balance` (Admin)
+- View Team Leave Requests
+- Approve Leave Requests
+- Reject Leave Requests
+- Team Dashboard
+- Leave Notifications
 
-### 7. **Frontend (Next.js App Router)**
+---
 
-- **Pages:**
-  - Login
-  - Dashboard (role-specific)
-  - Leave Application (Employee)
-  - Leave Requests (Manager)
-  - User Management (Admin)
-  - Reports (Admin)
-- **UI Requirements:**
-  - Responsive design (Tailwind CSS recommended)
-  - Form validation (client-side + server-side)
-  - Loading states and error handling
-  - Notifications (toast messages for actions)
+## Admin
 
+- User Management
+- Leave Type Management
+- Leave Policy Management
+- Leave Summary Report
+- Leave Balance Report
+- Dashboard Analytics
 
-### Prerequisites
+---
 
-- Node.js (v22+)
-- PostgreSQL (local or Docker)
-- Git
-- Basic knowledge of TypeScript (recommended)
+## Reports
 
-### Local Development Setup
+- Leave Summary
+- Leave Balance
+- Department-wise Statistics
+- Employee-wise Statistics
 
-#### 1. **Clone the Repository**
-  git clone (https://github.com/ReadNRevise/Intern-Hiring-React.git)
-  cd  Intern-Hiring-React
+---
 
-#### 2. **Backend Setup**
+## Additional Features
 
-- Navigate to the backend directory:
+- Responsive Design
+- Loading States
+- Form Validation
+- Toast Notifications
+- Error Handling
+- Notification Center
+- RESTful APIs
+- Role-Based Navigation
 
-  cd server
+---
 
-#### 3. **Frontend Setup**
+# Folder Structure
 
-- Navigate to the frontend directory:
-    cd ../client
-  
+```
+Intern-Hiring-React
+│
+├── client
+│   ├── app
+│   ├── components
+│   ├── hooks
+│   ├── lib
+│   ├── services
+│   ├── styles
+│   └── tests
+│
+├── server
+│   ├── controllers
+│   ├── middleware
+│   ├── prisma
+│   ├── routes
+│   ├── services
+│   ├── utils
+│   └── tests
+│
+└── README.md
+```
 
-## Unit Testing
+---
 
-**Note:** Your project **must include unit tests** for both backend and frontend to ensure reliability and correctness.
+# Installation
 
-### Backend Testing
+## Clone Repository
 
-- Use **Jest** or **Vitest** to test:
-  - API endpoints (e.g., auth, leave requests, user management)
-  - Database operations (Prisma queries)
-  - Authentication middleware
-  - Input validation and error handling
-- Example test cases:
-  - Test user registration and login
-  - Test leave request creation, approval, and rejection
-  - Test role-based access control
+```bash
+git clone https://github.com/Phaneendra2005/leave-management-system.git
+```
 
-### Frontend Testing
+```
+cd Intern-Hiring-React
+```
 
-- Use **Jest** + **React Testing Library** to test:
-  - Component rendering and interactions
-  - Form submissions and validations
-  - API integration (mock API calls)
-- Example test cases:
-  - Test login form submission
-  - Test leave application form validation
-  - Test role-based UI rendering (e.g., Admin sees user management, Employee does not)
+---
 
-### Running Tests
+# Backend Setup
 
-- Backend:
-  ```bash
-  npm run test
-  ```
-- Frontend:
-  ```bash
-  npm run test
-  ```
+```
+cd server
+```
 
-## Deployment Instructions
+Install dependencies
 
-**Note:** Your project **must include deployment instructions** to demonstrate how to deploy the application in a production-like environment.
+```
+npm install
+```
 
-### Option 1: Deploy to Vercel (Frontend) + Render (Backend)
+Generate Prisma Client
 
-#### Frontend (Next.js) on Vercel
+```
+npx prisma generate
+```
 
-1. Push your code to a GitHub repository.
-2. Go to [Vercel](https://vercel.com/) and import your repository.
-3. Configure the following environment variables in Vercel:
-  ```env
-   NEXT_PUBLIC_API_URL=<your-backend-url>
-  ```
-4. Deploy the frontend.
+Run migrations
 
-#### Backend (Node.js) on Render
+```
+npx prisma migrate deploy
+```
 
-1. Go to [Render](https://render.com/) and create a new **Web Service**.
-2. Connect your GitHub repository and select the `server` directory.
-3. Configure the following environment variables in Render:
-  ```env
-   DATABASE_URL=<your-postgresql-connection-string>
-   JWT_SECRET=your_jwt_secret_here
-   PORT=5000
-  ```
-4. Set the build command to:
-  ```bash
-   npm install && npx prisma generate
-  ```
-5. Set the start command to:
-  ```bash
-   npm start
-  ```
-6. Deploy the backend.
+Start server
 
-### Option 2: Deploy to Railway
+```
+npm run dev
+```
 
-1. Go to [Railway](https://railway.app/) and create a new project.
-2. Add a **PostgreSQL** service and note the connection string.
-3. Add a **Node.js** service for the backend and connect it to the PostgreSQL service.
-4. Set the environment variables for the backend:
-  ```env
-   DATABASE_URL=<railway-postgresql-connection-string>
-   JWT_SECRET=your_jwt_secret_here
-   PORT=5000
-  ```
-5. Deploy the backend.
-6. Add another **Node.js** service for the frontend (Next.js) and set:
-  ```env
-   NEXT_PUBLIC_API_URL=<your-backend-url>
-  ```
-7. Deploy the frontend.
+---
 
-### General
+# Frontend Setup
 
-- Git best practices (meaningful commits, branches, pull requests)
-- Code readability and organization
-- Documentation (comments, README updates)
-- Ability to complete the project within 1 week
+```
+cd client
+```
 
-##  Submission Guidelines
+Install dependencies
 
-1. **Fork the Repository**: Create a fork of the provided repository.
-2. **Create a Branch**: Work on a branch named `intern-<your-name>`.
-3. **Commit Regularly**: Make small, meaningful commits.
-4. **Push to GitHub**: Push your branch to your fork.
-5. **Submit a Pull Request**: Open a PR to the main repository with:
-  - A clear title (e.g., "Intern Submission: [Your Name]")
-  - A description of your implementation
-  - Any assumptions or challenges faced
-6. **Include a README**: Update the README with:
-  - Setup instructions
-  - Features implemented
-  - Screenshots or a short demo video (optional but encouraged)
-  - **Unit test results** (screenshots or logs)
-  - **Deployment link** (if deployed)
+```
+npm install
+```
 
-## 💡 Tips for Interns
+Start development server
 
-- **Refer to Docs**:
-  - [Next.js Docs](https://nextjs.org/docs)
-  - [Prisma Docs](https://www.prisma.io/docs)
-  - [Express Docs](https://expressjs.com/)
-  - [Jest Docs](https://jestjs.io/docs/getting-started)
-  - [React Testing Library Docs](https://testing-library.com/docs/react-testing-library/intro/)
+```
+npm run dev
+```
 
-- **Ask for Help**: If stuck, ask for clarification on requirements or concepts.
+---
 
-## Additional Notes
+# Environment Variables
 
-- **Bonus Points**:
-  - Leave calendar with drag-and-drop
-  - Integration tests or E2E tests
-## 🤝 Need Help?
+## Backend (.env)
 
-Reach out to the team via email for any questions or clarifications!
+```
+DATABASE_URL=<POSTGRES_DATABASE_URL>
+
+JWT_SECRET=<YOUR_SECRET_KEY>
+
+PORT=5000
+```
+
+---
+
+## Frontend (.env.local)
+
+```
+NEXT_PUBLIC_API_URL=<YOUR_RENDER_URL>
+```
+
+---
+
+# API Endpoints
+
+## Authentication
+
+| Method | Endpoint |
+|---------|----------|
+| POST | /api/auth/login |
+| POST | /api/auth/logout |
+| GET | /api/users/me |
+
+---
+
+## Users
+
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/users |
+| POST | /api/users |
+| PUT | /api/users/:id |
+| DELETE | /api/users/:id |
+
+---
+
+## Leave Types
+
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/leave-types |
+| POST | /api/leave-types |
+| PUT | /api/leave-types/:id |
+| DELETE | /api/leave-types/:id |
+
+---
+
+## Leave Requests
+
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/leave-requests |
+| POST | /api/leave-requests |
+| PUT | /api/leave-requests/:id |
+| POST | /api/leave-requests/:id/cancel |
+
+---
+
+## Reports
+
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/reports/leave-summary |
+| GET | /api/reports/leave-balance |
+
+---
+
+## Notifications
+
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/notifications |
+| PUT | /api/notifications/:id/read |
+| PUT | /api/notifications/read-all |
+
+---
+
+# Testing
+
+## Backend
+
+```
+cd server
+
+npm test
+```
+
+Tests include
+
+- Authentication
+- Authorization
+- Leave Requests
+- Notifications
+- Validation
+- API Controllers
+
+---
+
+## Frontend
+
+```
+cd client
+
+npm test
+```
+
+Tests include
+
+- Login
+- Dashboard
+- Leave Application
+- Leave History
+- Protected Routes
+- Notification Component
+
+---
+
+# Deployment
+
+## Frontend
+
+Hosted on **Vercel**
+
+```
+https://leave-management-system-rho-three.vercel.app
+```
+
+---
+
+## Backend
+
+Hosted on **Render**
+
+```
+https://leave-management-system-xdn0.onrender.com
+```
+
+---
+
+# Demo Credentials
+
+## Admin
+
+```
+Email:
+admin@example.com
+
+Password:
+Admin@123
+```
+
+---
+
+## Manager
+
+```
+Email:
+manager@example.com
+
+Password:
+Manager@123
+```
+
+---
+
+## Employee
+
+```
+Email:
+employee@example.com
+
+Password:
+Employee@123
+```
+
+> Replace the above with the actual seeded credentials from your database.
+
+---
+
+# Screenshots
+
+Recommended screenshots:
+
+- Login Page
+- Employee Dashboard
+- Manager Dashboard
+- Admin Dashboard
+- Apply Leave
+- Leave Requests
+- Reports
+- Notification Panel
+
+---
+
+# Project Highlights
+
+- JWT Authentication
+- Secure Password Hashing
+- Prisma ORM
+- PostgreSQL Database
+- RESTful API Design
+- Responsive UI
+- Role-Based Access Control
+- Clean Architecture
+- Production Deployment
+- Unit Testing
+
+---
+
+# Future Improvements
+
+- Email Notifications
+- Real-Time Notifications (WebSockets)
+- Calendar Drag-and-Drop
+- Excel Export
+- PDF Reports
+- Integration Tests
+- End-to-End Testing
+- Multi-language Support
+- Audit Dashboard
+- Mobile Application
+
+---
+
+# Author
+
+**Phaneendra Kanduri**
+
+B.Tech Computer Science & Engineering (Cyber Security)
+
+GitHub:
+https://github.com/Phaneendra2005
+
+LinkedIn:
+https://www.linkedin.com/in/phaneendra-kanduri/
+
+---
+
+# License
+
+This project was developed as part of the **ReadNRevise Full Stack Intern Technical Assessment** and is intended solely for evaluation purposes.

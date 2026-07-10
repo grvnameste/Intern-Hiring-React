@@ -42,3 +42,6 @@
 
  # OS
  Thumbs.db
+
+.vscode/
+server/dist/

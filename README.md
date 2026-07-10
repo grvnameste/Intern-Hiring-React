@@ -1,223 +1,191 @@
-# Intern-Hiring-React
-A full-stack project for intern evaluation (React + Next.js + Node.js + PostgreSQL).
+# Employee Leave Management System
 
-## Project Overview
+## Overview
 
-The **Employee Leave Management System** is a **full-stack web application** designed to evaluate interns on their proficiency in **React, Next.js, Node.js, and PostgreSQL**. This system allows employees to apply for leaves, managers to approve/reject leave requests, and admins to manage users, view reports, and oversee the entire system.
+This repository contains a full-stack Employee Leave Management System built with:
 
-**Expected Completion Time:** 1 week  
-**Tech Stack:** React, Next.js (App Router), Node.js, Express, PostgreSQL, Prisma ORM
+- **Frontend:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS
+- **Backend:** Node.js, Express, Prisma 7, PostgreSQL
+- **Authentication:** JWT-based auth with role-based authorization
 
-## Roles and Permissions
+The system supports employees applying for leave, managers approving/rejecting leave requests, and admins managing users, leave types, and reports.
 
-| Role         | Permissions                                                                                 |
-| ------------ | ------------------------------------------------------------------------------------------- |
-| **Employee** | Apply for leave, view own leave history, view leave balance, cancel own leave requests      |
-| **Manager**  | Approve/reject leave requests, view team leave requests, view team leave reports            |
-| **Admin**    | Manage users (CRUD), view all leave requests, generate reports, manage leave types/policies |
+## Implemented Features
 
+- JWT authentication and secure password hashing
+- Role-based access control for Employee, Manager, and Admin
+- Employee leave application, history, cancellation, and balance tracking
+- Manager team request review and approval/rejection workflow
+- Automatic leave balance deduction on approval
+- Admin user management and leave type management
+- Admin reports for leave summaries and leave balances
+- PostgreSQL database with Prisma ORM and seeded demo data
+- Backend and frontend tests with Vitest
+- Production-ready Next.js build
 
-## Features to Implement
+## Permissions
 
-### 1. **User Authentication & Authorization**
+### Employee
 
-- User registration (Admin can create users)
-- User login/logout 
-- Role-based access control (Employee, Manager, Admin)
-- Password hashing
+- Login and view dashboard
+- Apply for leave
+- View own leave history and balances
+- Cancel pending leave requests
 
-### 2. **Leave Management**
+### Manager
 
-- **Employee:**
-  - Apply for leave (type, start date, end date, reason)
-  - View own leave history and balance
-  - Cancel own pending leave requests
-- **Manager:**
-  - View leave requests from their team
-  - Approve/reject leave requests
-  - View team leave calendar
-- **Admin:**
-  - Manage leave types (e.g., Annual, Sick, Maternity)
-  - Set leave policies (e.g., max days per type)
+- Login and view team requests
+- Approve or reject direct team leave requests
+- View leave request status for managed employees
 
-### 3. **Leave Request Workflow**
+### Admin
 
-- Employee submits a leave request → Manager receives notification
-- Manager approves/rejects → Employee receives notification
-- System updates leave balance automatically
+- Login and manage users
+- Manage leave types
+- View admin reports for leave balances and summaries
 
-### 4. **Reports (Admin Only)**
+## Tech Stack
 
-- **Leave Summary Report:** Total leaves taken by type, department, or employee
-- **Leave Balance Report:** Remaining leave balance for all employees
-- **Leave Calendar:** Visual representation of leaves (by team or company-wide)
-- Export reports as **CSV/Excel** (bonus)
+- Node.js
+- Express
+- Prisma 7
+- PostgreSQL
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- Vitest
 
-### 5. **Database Schema (PostgreSQL + Prisma)**
+## Project Structure
 
-- **User:** id, name, email, password, role (Employee/Manager/Admin), managerId (for reporting hierarchy)
-- **LeaveType:** id, name (e.g., Annual, Sick), maxDays
-- **LeaveRequest:** id, userId, leaveTypeId, startDate, endDate, status (Pending/Approved/Rejected), reason, createdAt
-- **LeaveBalance:** id, userId, leaveTypeId, balance (auto-updated)
+- `server/` - Backend source, Prisma schema, API routes
+- `client/` - Frontend Next.js app
+- `server/prisma/` - Prisma schema and seed data
 
-### 6. **API Endpoints (RESTful)**
+## Prerequisites
 
-- **Auth:** `POST /api/auth/login`, `POST /api/auth/logout`
-- **Users:** `GET /api/users` (Admin), `POST /api/users` (Admin), `GET /api/users/me`
-- **Leave Types:** `GET /api/leave-types`, `POST /api/leave-types` (Admin)
-- **Leave Requests:**
-  - `GET /api/leave-requests` (Employee: own, Manager: team, Admin: all)
-  - `POST /api/leave-requests` (Employee)
-  - `PUT /api/leave-requests/:id` (Manager: approve/reject, Employee: cancel)
-- **Reports:** `GET /api/reports/leave-summary`, `GET /api/reports/leave-balance` (Admin)
-
-### 7. **Frontend (Next.js App Router)**
-
-- **Pages:**
-  - Login
-  - Dashboard (role-specific)
-  - Leave Application (Employee)
-  - Leave Requests (Manager)
-  - User Management (Admin)
-  - Reports (Admin)
-- **UI Requirements:**
-  - Responsive design (Tailwind CSS recommended)
-  - Form validation (client-side + server-side)
-  - Loading states and error handling
-  - Notifications (toast messages for actions)
-
-
-### Prerequisites
-
-- Node.js (v22+)
-- PostgreSQL (local or Docker)
+- Node.js 22+
+- PostgreSQL database
 - Git
-- Basic knowledge of TypeScript (recommended)
 
-### Local Development Setup
+## Required Environment Variables
 
-#### 1. **Clone the Repository**
-  git clone (https://github.com/ReadNRevise/Intern-Hiring-React.git)
-  cd  Intern-Hiring-React
+- `DATABASE_URL`
+- `JWT_SECRET`
+- `NEXT_PUBLIC_API_URL` (frontend; optional if running backend locally at `http://localhost:5000`)
 
-#### 2. **Backend Setup**
+## Backend Setup
 
-- Navigate to the backend directory:
+```bash
+cd server
+npm install
+npx prisma generate
+npm run build
+```
 
-  cd server
+## Frontend Setup
 
-#### 3. **Frontend Setup**
+```bash
+cd client
+npm install
+npm run build
+```
 
-- Navigate to the frontend directory:
-    cd ../client
-  
+## Seed Command
 
-## Unit Testing
+```bash
+cd server
+npm run seed
+```
 
-**Note:** Your project **must include unit tests** for both backend and frontend to ensure reliability and correctness.
+## Run Commands
 
-### Backend Testing
+### Backend
 
-- Use **Jest** or **Vitest** to test:
-  - API endpoints (e.g., auth, leave requests, user management)
-  - Database operations (Prisma queries)
-  - Authentication middleware
-  - Input validation and error handling
-- Example test cases:
-  - Test user registration and login
-  - Test leave request creation, approval, and rejection
-  - Test role-based access control
+```bash
+cd server
+npm run dev
+```
 
-### Frontend Testing
+### Frontend
 
-- Use **Jest** + **React Testing Library** to test:
-  - Component rendering and interactions
-  - Form submissions and validations
-  - API integration (mock API calls)
-- Example test cases:
-  - Test login form submission
-  - Test leave application form validation
-  - Test role-based UI rendering (e.g., Admin sees user management, Employee does not)
+```bash
+cd client
+npm run dev
+```
 
-### Running Tests
+## Test Commands
 
-- Backend:
-  ```bash
-  npm run test
-  ```
-- Frontend:
-  ```bash
-  npm run test
-  ```
+### Backend
 
-## Deployment Instructions
+```bash
+cd server
+npm run test
+```
 
-**Note:** Your project **must include deployment instructions** to demonstrate how to deploy the application in a production-like environment.
+### Frontend
 
-### Option 1: Deploy to Vercel (Frontend) + Render (Backend)
+```bash
+cd client
+npm run test
+```
 
-#### Frontend (Next.js) on Vercel
+## Demo Credentials (demo only)
 
-1. Push your code to a GitHub repository.
-2. Go to [Vercel](https://vercel.com/) and import your repository.
-3. Configure the following environment variables in Vercel:
-  ```env
-   NEXT_PUBLIC_API_URL=<your-backend-url>
-  ```
-4. Deploy the frontend.
+- Admin: `admin@example.com`
+- Manager: `manager@example.com`
+- Employee: `employee@example.com`
+- Password: `Demo@123`
 
-#### Backend (Node.js) on Render
+## API Summary
 
-1. Go to [Render](https://render.com/) and create a new **Web Service**.
-2. Connect your GitHub repository and select the `server` directory.
-3. Configure the following environment variables in Render:
-  ```env
-   DATABASE_URL=<your-postgresql-connection-string>
-   JWT_SECRET=your_jwt_secret_here
-   PORT=5000
-  ```
-4. Set the build command to:
-  ```bash
-   npm install && npx prisma generate
-  ```
-5. Set the start command to:
-  ```bash
-   npm start
-  ```
-6. Deploy the backend.
+### Auth
 
-### Option 2: Deploy to Railway
+- `POST /api/auth/login`
 
-1. Go to [Railway](https://railway.app/) and create a new project.
-2. Add a **PostgreSQL** service and note the connection string.
-3. Add a **Node.js** service for the backend and connect it to the PostgreSQL service.
-4. Set the environment variables for the backend:
-  ```env
-   DATABASE_URL=<railway-postgresql-connection-string>
-   JWT_SECRET=your_jwt_secret_here
-   PORT=5000
-  ```
-5. Deploy the backend.
-6. Add another **Node.js** service for the frontend (Next.js) and set:
-  ```env
-   NEXT_PUBLIC_API_URL=<your-backend-url>
-  ```
-7. Deploy the frontend.
+### Users
 
-### General
+- `GET /api/users` (Admin)
+- `POST /api/users` (Admin)
+- `GET /api/users/me`
 
-- Git best practices (meaningful commits, branches, pull requests)
-- Code readability and organization
-- Documentation (comments, README updates)
-- Ability to complete the project within 1 week
+### Leave Types
 
-##  Submission Guidelines
+- `GET /api/leave-types`
+- `POST /api/leave-types` (Admin)
 
-1. **Fork the Repository**: Create a fork of the provided repository.
-2. **Create a Branch**: Work on a branch named `intern-<your-name>`.
-3. **Commit Regularly**: Make small, meaningful commits.
-4. **Push to GitHub**: Push your branch to your fork.
-5. **Submit a Pull Request**: Open a PR to the main repository with:
+### Leave Requests
+
+- `GET /api/leave-requests`
+- `POST /api/leave-requests`
+- `PUT /api/leave-requests/:id`
+
+### Reports
+
+- `GET /api/reports/leave-summary`
+- `GET /api/reports/leave-balance`
+
+## Verification Summary
+
+- Backend build: passed
+- Backend tests: passed
+- Frontend build: passed
+- Frontend tests: passed
+- Health endpoint: verified
+- Seed: verified
+
+## Deployment Notes
+
+- Run `npx prisma generate` after updating `schema.prisma`
+- Ensure `DATABASE_URL` and `JWT_SECRET` are configured in production
+- Set `NEXT_PUBLIC_API_URL` to the deployed backend URL for the frontend
+
+## Known Limitations
+
+- Demo credentials are for development only
+- No email notifications are implemented
+- No frontend route protection beyond role-based UI control
+
   - A clear title (e.g., "Intern Submission: [Your Name]")
   - A description of your implementation
   - Any assumptions or challenges faced

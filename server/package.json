@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --loader ts-node/esm --watch src/app.ts",
-    "start": "node src/app.ts",
+    "start": "tsx src/app.ts",
     "test": "vitest run"
   },
   "keywords": [],
@@ -22,6 +22,7 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.22.0",
+    "tsx": "^4.23.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
